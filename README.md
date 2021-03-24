@@ -57,7 +57,7 @@ Shows how to use AWS with Terraform to accomplish the following tasks:
 It will deploy to the account setup for the aws cli called 'default'
 
 ```bash
-cd AWS_SG_validation_with_Terraform
+cd AWS_TGW_VPC-s
 terraform init
 terraform validate
 terraform apply --auto-approve
