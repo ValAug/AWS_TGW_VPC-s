@@ -14,7 +14,7 @@ Creating a Transit gateway with a few VPC's attached to it.
 ###### IaaC
 ![Terraform](https://img.shields.io/badge/-Terraform-000000?style=flat&logo=Terraform)
 
-# AWS SG and architecture diagram 
+# AWS AWS_TGW_VPC's and architecture diagram 
 <!--[alt text](https://github.com/ValAug/AWS_TGW_VPC-s/blob/master/sg_diagrama.png)-->
 
 
