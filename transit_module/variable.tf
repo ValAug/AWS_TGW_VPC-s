@@ -6,5 +6,5 @@ variable "vpc_count" {
   validation {
     condition     = var.vpc_count <= 4 && var.vpc_count >= 1
     error_message = "The amount of vpc's must be valid range 1 - 3."
-}
+  }
 }
