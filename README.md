@@ -23,9 +23,9 @@ Creating a Transit gateway with a few VPC's attached to it.
 Shows how to use AWS with Terraform to accomplish the following tasks:
 
 * Build an AWS TGW 
-* Build an AWS VPC
-* Build an AWS Subnet
-* Build an AWS Route table and route
+* Build multiple AWS VPC
+* Build multiple AWS Subnet
+* Build multiple AWS Route table and route
 * Attache VPC's to the TGW
 
 # Prerequisites
