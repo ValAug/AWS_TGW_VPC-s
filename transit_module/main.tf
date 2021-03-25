@@ -6,7 +6,7 @@ resource "random_string" "vpc_random" {
     special = true
   
 }
-resource "aws_vpc" "vpc" {
+resource "aws_vpc" "dev_vpc" {
   count = var.vpc_count
   cidr_block = "10.0.0.0/16"
   enable_dns_hostnames = true
@@ -14,6 +14,12 @@ resource "aws_vpc" "vpc" {
 
 
   tags = {
-    "Name" = join("-", ["vpc", random_string.vpc_random[count.index].result])
+    "Name" = join("-", ["dev_vpc", random_string.vpc_random[count.index].result])
   }
+}
+
+resource "aws_subnet" "subnet" {
+  count = 1  
+  vpc_id = aws_vpc.dev_vpc[count.index].id
+  cidr_block = "10.0.1.0/24"
 }
