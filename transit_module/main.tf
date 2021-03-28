@@ -1,63 +1,128 @@
 # ---main/module---- 
 data "aws_availability_zones" "azs" {
-  
+
 }
 
 resource "random_shuffle" "az_list" {
   input = data.aws_availability_zones.azs.names
 }
-resource "random_string" "vpc_random" {
-  count   = var.vpc_count
-  length  = 4
-  special = true
 
-}
-resource "aws_vpc" "dev_vpc" {
+resource "aws_vpc" "dev_vpc_1" {
   count                = var.vpc_count
-  cidr_block           = "10.0.0.0/16"
+  cidr_block           = var.vpc_block
   enable_dns_hostnames = true
   enable_dns_support   = true
   tags = {
-    "Name" = join("-", ["dev_vpc", random_string.vpc_random[count.index].result])
+    "Name" = "dev_vpc_1"
   }
-  lifecycle {
-    ignore_changes = [tags["Name"]]
-  }
+  
 }
 
+resource "aws_vpc" "dev_vpc_2" {
+  count                = var.vpc_count
+  cidr_block           = var.vpc_block
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+  tags = {
+    "Name" = "dev_vpc_2"
+  }
+  
+}
+
+resource "aws_vpc" "dev_vpc_3" {
+  count                = var.vpc_count
+  cidr_block           = var.vpc_block
+  enable_dns_hostnames = true
+  enable_dns_support   = true
+  tags = {
+    "Name" = "dev_vpc_3"
+  }
+  
+}
 resource "aws_route_table" "dev_vpc_rt" {
   count = var.vpc_count
-  vpc_id = aws_vpc.dev_vpc[count.index].id
+  vpc_id = aws_vpc.dev_vpc_1[count.index].id
   tags = {
-    "Name" = "dev_vpc_rt"
+    "Name" = "dev_vpc_rt_1"
   }
 }
-resource "aws_subnet" "subnet" {
+resource "aws_subnet" "subnet_1" {
   count      = var.sub_count
-  vpc_id     = aws_vpc.dev_vpc[count.index].id
+  vpc_id     = aws_vpc.dev_vpc_1[count.index].id
   cidr_block = var.cidr_block[count.index]
   availability_zone = random_shuffle.az_list.result[count.index]
 
   tags = {
-    "Name" = "dev_subnet"
+    "Name" = "dev_subnet_1"
   }
 
 }
 
+resource "aws_subnet" "subnet_2" {
+  count      = var.sub_count
+  vpc_id     = aws_vpc.dev_vpc_2[count.index].id
+  cidr_block = var.cidr_block[count.index]
+  availability_zone = random_shuffle.az_list.result[count.index]
+
+  tags = {
+    "Name" = "dev_subnet_2"
+  }
+
+}
+
+resource "aws_subnet" "subnet_3" {
+  count      = var.sub_count
+  vpc_id     = aws_vpc.dev_vpc_3[count.index].id
+  cidr_block = var.cidr_block[count.index]
+  availability_zone = random_shuffle.az_list.result[count.index]
+
+  tags = {
+    "Name" = "dev_subnet_3"
+  }
+
+}
 resource "aws_ec2_transit_gateway" "dev_vpc_tgw" {
-  count = var.vpc_count
+
   tags = {
       Name = "dev_vpc_tgw"
   }
 }
 
-resource "aws_ec2_transit_gateway_vpc_attachment" "dev_vpc_tgw_att" {
-  count = 2
-  transit_gateway_id = aws_ec2_transit_gateway.dev_vpc_tgw[count.index].id
-  vpc_id = aws_vpc.dev_vpc[count.index].id
-  subnet_ids = aws_subnet.subnet[*].id
+resource "aws_ec2_transit_gateway_vpc_attachment" "dev_vpc_tgw_att_1" {
+  count = var.transit_gateway_vpc_attachment_count
+  transit_gateway_id = aws_ec2_transit_gateway.dev_vpc_tgw.id
+  vpc_id = aws_vpc.dev_vpc_1[count.index].id
+  subnet_ids = aws_subnet.subnet_1[*].id
 
   tags = {
-      Name = "dev_vpc_tgw_att"
+      Name = "dev_vpc_tgw_att_1"
   }
+
+
+}
+
+resource "aws_ec2_transit_gateway_vpc_attachment" "dev_vpc_tgw_att_2" {
+  count = var.transit_gateway_vpc_attachment_count
+  transit_gateway_id = aws_ec2_transit_gateway.dev_vpc_tgw.id
+  vpc_id = aws_vpc.dev_vpc_2[count.index].id
+  subnet_ids = aws_subnet.subnet_2[*].id
+
+  tags = {
+      Name = "dev_vpc_tgw_att_2"
+  }
+
+
+}
+
+
+resource "aws_ec2_transit_gateway_vpc_attachment" "dev_vpc_tgw_att_3" {
+  count = var.transit_gateway_vpc_attachment_count
+  transit_gateway_id = aws_ec2_transit_gateway.dev_vpc_tgw.id
+  vpc_id = aws_vpc.dev_vpc_3[count.index].id
+  subnet_ids = aws_subnet.subnet_3[*].id
+
+  tags = {
+      Name = "dev_vpc_tgw_att_3"
+  }
+
 }
