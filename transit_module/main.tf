@@ -8,7 +8,7 @@ resource "random_shuffle" "az_list" {
 }
 
 resource "aws_vpc" "dev_vpc_1" {
-  count                = var.vpc_count
+  count                = var.vpc_1
   cidr_block           = var.vpc_block
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -19,7 +19,7 @@ resource "aws_vpc" "dev_vpc_1" {
 }
 
 resource "aws_vpc" "dev_vpc_2" {
-  count                = var.vpc_count
+  count                = var.vpc_2
   cidr_block           = var.vpc_block
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -30,7 +30,7 @@ resource "aws_vpc" "dev_vpc_2" {
 }
 
 resource "aws_vpc" "dev_vpc_3" {
-  count                = var.vpc_count
+  count                = var.vpc_3
   cidr_block           = var.vpc_block
   enable_dns_hostnames = true
   enable_dns_support   = true
@@ -40,14 +40,14 @@ resource "aws_vpc" "dev_vpc_3" {
   
 }
 resource "aws_route_table" "dev_vpc_rt" {
-  count = var.vpc_count
+  count = var.vpc_1
   vpc_id = aws_vpc.dev_vpc_1[count.index].id
   tags = {
     "Name" = "dev_vpc_rt_1"
   }
 }
 resource "aws_subnet" "subnet_1" {
-  count      = var.sub_count
+  count      = var.sub_1
   vpc_id     = aws_vpc.dev_vpc_1[count.index].id
   cidr_block = var.cidr_block[count.index]
   availability_zone = random_shuffle.az_list.result[count.index]
@@ -59,7 +59,7 @@ resource "aws_subnet" "subnet_1" {
 }
 
 resource "aws_subnet" "subnet_2" {
-  count      = var.sub_count
+  count      = var.sub_2
   vpc_id     = aws_vpc.dev_vpc_2[count.index].id
   cidr_block = var.cidr_block[count.index]
   availability_zone = random_shuffle.az_list.result[count.index]
@@ -71,7 +71,7 @@ resource "aws_subnet" "subnet_2" {
 }
 
 resource "aws_subnet" "subnet_3" {
-  count      = var.sub_count
+  count      = var.sub_3
   vpc_id     = aws_vpc.dev_vpc_3[count.index].id
   cidr_block = var.cidr_block[count.index]
   availability_zone = random_shuffle.az_list.result[count.index]

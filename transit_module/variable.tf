@@ -1,14 +1,44 @@
 # ---variable/module---
-variable "vpc_count" {
+variable "vpc_1" {
   description = "Numbers of vpc to be deploy with their random string names"
   type        = number
 
   validation {
-    condition     = var.vpc_count <= 4 && var.vpc_count >= 1
+    condition     = var.vpc_1 <= 4 && var.vpc_1 >= 1
     error_message = "The amount of vpc's must be valid range 1 - 3."
   }
 }
-variable "sub_count" {
+
+variable "vpc_2" {
+  description = "Numbers of vpc to be deploy with their random string names"
+  type        = number
+
+  validation {
+    condition     = var.vpc_2 <= 4 && var.vpc_2 >= 1
+    error_message = "The amount of vpc's must be valid range 1 - 3."
+  }
+}
+
+variable "vpc_3" {
+  description = "Numbers of vpc to be deploy with their random string names"
+  type        = number
+
+  validation {
+    condition     = var.vpc_3 <= 4 && var.vpc_3 >= 1
+    error_message = "The amount of vpc's must be valid range 1 - 3."
+  }
+}
+variable "sub_1" {
+  description = "Numbers of subnets to be deploy within a VPC"
+  type        = number
+}
+
+variable "sub_2" {
+  description = "Numbers of subnets to be deploy within a VPC"
+  type        = number
+}
+
+variable "sub_3" {
   description = "Numbers of subnets to be deploy within a VPC"
   type        = number
 }
