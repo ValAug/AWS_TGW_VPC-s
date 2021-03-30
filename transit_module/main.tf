@@ -126,3 +126,11 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "dev_vpc_tgw_att_3" {
   }
 
 }
+
+resource "aws_route" "dev-tgw-rt" {
+  count = 1
+  route_table_id         = aws_route_table.dev_vpc_rt[count.index].id
+  destination_cidr_block = var.dest_cidr
+  transit_gateway_id     = aws_ec2_transit_gateway.dev_vpc_tgw.id
+  
+}

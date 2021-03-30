@@ -64,3 +64,7 @@ variable "cidr_block" {
     "10.0.9.0/24",
   ]
 }
+
+variable "dest_cidr"{
+  default = "162.1.0.0/16"
+}
